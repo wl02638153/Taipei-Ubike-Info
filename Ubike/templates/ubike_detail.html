@@ -1,0 +1,242 @@
+<style type="text/css">
+iframe {
+    width: 100%;
+    height: 83%;
+}  
+</style>
+{% extends 'temp.html' %}
+{% block title %}ubike{% endblock %}
+{% block content %}
+<script type="text/javascript">
+	var a="{{post_ubike_info.sna}}";
+	console.log(a);
+</script>
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              台北市Ubike站點資訊</div>
+            <div class="card-body">
+              	<div class="table-responsive">
+              		<!-- {{te}} -->
+              	  	<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              	  	  	<thead>
+		                    <tr>
+		                      	<th>編號</th>
+		                      	<th>站名</th>
+		                      	<th>區域</th>
+		                      	<th>位置</th>
+		                      	<th>目前剩餘數/總數</th>
+		                    </tr>
+		                </thead>
+		                <tbody>
+		                <tr>
+		                    <td>{{ post_ubike_info.sno }}</td>
+		                    <td>{{ post_ubike_info.sna }}</td>
+		                    <td>{{ post_ubike_info.sarea }}</td>
+		                    <td>{{ post_ubike_info.ar }}</td>
+		                    <td>{{ now_sbi }}/{{ total }}</td>
+		                </tr>
+		                	<!-- <tr> -->
+		                      <!-- <td>{{ ubike.seq }}</td>  -->
+		                      <!-- <td>{{ ubike.sno }}</td> -->
+		                      <!-- <td>{{ ubike.tot }}</td> -->
+		                      <!-- <td>{{ ubike.sbi }}</td> -->
+		                      <!-- <td>{{ ubike.bemp }}</td> -->
+		                      <!-- <td>{{ ubike.act }}</td> -->
+		                      <!-- <td>{{ ubike.utime }}</td> -->
+		                    <!-- </tr> -->
+		                </tbody>
+              	  	</table>
+              	</div>
+            </div>
+            <div class="card-footer small text-muted">Updated at {{ end }}</div>
+          </div>
+
+          <!-- Area Chart Example-->
+		  <div class="card mb-3">
+		    <div class="card-header">
+		      <i class="fas fa-chart-area"></i>
+		      今日使用狀況</div>
+		    <div class="card-body">
+		      <canvas id="myAreaChart" width="100%" height="30"></canvas>
+		    </div>
+		    <div class="card-footer small text-muted">Updated at {{ end }}</div>
+		  </div>
+		  <!-- Area Chart Example end-->
+{% load static %}
+<script src="{% static "chartjs/node_modules/chart.js/samples/moment.min.js" %}"></script>
+<!-- <script src="{% static "startbootstrap-sb-admin-gh-pages/vendor/chart.js/moment.js" %}"></script> -->
+
+<!-- <script src="{% static "startbootstrap-sb-admin-gh-pages/vendor/chart.js/moment-timezone-with-data.js" %}"></script> -->
+<script src="{% static "chartjs/node_modules/chart.js/dist/Chart.js" %}"></script>
+
+
+<script type="text/javascript">
+	function newDate(days) {
+		return moment().add(days, 'd').toDate();
+	}
+	function newDateString(days) {
+		return moment(days);
+	}
+
+	// var dict=[];
+	var ubike_utime=[{% for ubike in post_ubike_detail %}"{{ ubike.utime }}",{% endfor %}];
+	var ubike_sbi=[{% for ubike in post_ubike_detail %}"{{ ubike.sbi }}",{% endfor %}];
+	console.log("ubike_utime l="+ubike_utime.length);
+	// for(var i=0;i<ubike_utime.length;i++){
+		// dict.push({
+			// x:newDateString(ubike_utime[i]),
+			// y:ubike_sbi[i]
+		// })
+	// }
+	// console.log("dict=="+dict);
+
+	// moment.tz.setDefault("Asia/Taipei");
+	console.log({% for ubike in post_ubike_detail %}"{{ ubike.utime }}",{% endfor %})
+	// Set new default font family and font color to mimic Bootstrap's default styling
+	Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+	Chart.defaults.global.defaultFontColor = '#292b2c';
+	
+	// Area Chart Example
+	var ctx = document.getElementById("myAreaChart");
+	var myLineChart = new Chart(ctx, {
+	  type: 'line',
+	  data: {
+	    labels: ubike_utime,
+
+	    datasets: [{
+	      label: "目前車輛數量",
+	      lineTension: 0.3,
+	      backgroundColor: "rgba(2,117,216,0.2)",
+	      fill: true,
+	      borderColor: "rgba(2,117,216,1)",
+	      pointRadius: 5,
+	      pointBackgroundColor: "rgba(2,117,216,1)",
+	      pointBorderColor: "rgba(255,255,255,0.8)",
+	      pointHoverRadius: 5,
+	      pointHoverBackgroundColor: "rgba(2,117,216,1)",
+	      pointHitRadius: 50,
+	      pointBorderWidth: 2,
+	      data: ubike_sbi,
+	      	// data: dict,
+
+	    }],
+	  },
+	  options: {
+	  	responsive: true,
+		title: {
+			display: true,
+			text: ''
+		},
+	    scales: {
+	      xAxes: [{
+	      	// type: 'time',
+	      	// time: {
+	      		// unit: 'hour',
+                // parser: "h:mm:ss",
+                // displayFormats: { hour: 'h:mm:ss' },
+            // },
+	      	display: true,
+	      	scaleLabel: {
+				display: true,
+				labelString: 'Date'
+			},
+	        ticks: {
+				major: {
+					fontStyle: 'bold',
+					fontColor: '#FF0000'
+				}
+			}
+	      }],
+	      yAxes: [{
+	        ticks: {
+	          min: 0,
+	          max: {{ post_ubike_all }},
+	          maxTicksLimit: 5
+	        },
+	        gridLines: {
+	          color: "rgba(0, 0, 0, .125)",
+	        }
+	      }],
+	    },
+	    legend: {
+	      display: false
+	    }
+	  }
+	});
+
+</script>
+<!-- <script type="text/javascript">
+// Set new default font family and font color to mimic Bootstrap's default styling
+Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#292b2c';
+
+// Area Chart Example
+var ctx = document.getElementById("myAreaChart");
+var myLineChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: [{% for ubike in post_ubike_detail %}"{{ ubike.utime }}",{% endfor %}],
+    datasets: [{
+      label: "目前車輛數量",
+      lineTension: 0.3,
+      backgroundColor: "rgba(2,117,216,0.2)",
+      borderColor: "rgba(2,117,216,1)",
+      pointRadius: 5,
+      pointBackgroundColor: "rgba(2,117,216,1)",
+      pointBorderColor: "rgba(255,255,255,0.8)",
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(2,117,216,1)",
+      pointHitRadius: 50,
+      pointBorderWidth: 2,
+      data: [{% for ubike in post_ubike_detail %}"{{ ubike.sbi }}",{% endfor %}],
+    }],
+  },
+  options: {
+    scales: {
+      xAxes: [{
+      	type: 'time',
+        time: {
+        	parser: 'HH:mm',
+	      	unit: 'hour',
+	      	displayFormats: {
+           	   	hour: 'HH:mm',
+           	   	millisecond: 'HH:mm',
+           		second: 'HH:mm',
+           		minute: 'HH:mm',
+           		hour: 'HH:mm',
+           		day: 'HH:mm',
+           		week: 'HH:mm',
+           		month: 'HH:mm',
+           		quarter: 'HH:mm',
+           		year: 'HH:mm',
+           	},
+	      	max: '{{ end }}',
+	      	min: '{{ start }}',
+	    },
+        gridLines: {
+          display: false
+        },
+        ticks: {
+          source: 'data'
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0,
+          max: {{ post_ubike_all }} ,
+          maxTicksLimit: 5
+        },
+        gridLines: {
+          color: "rgba(0, 0, 0, .125)",
+        }
+      }],
+    },
+    legend: {
+      display: false
+    }
+  }
+});
+</script> -->
+{% endblock %}
+

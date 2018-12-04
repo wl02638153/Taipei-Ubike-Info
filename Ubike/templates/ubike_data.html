@@ -1,0 +1,57 @@
+<style type="text/css">
+iframe {
+    width: 100%;
+    height: 83%;
+}  
+</style>
+{% extends 'temp.html' %}
+{% block title %}ubike{% endblock %}
+{% block content %}
+
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              台北市Ubike站點資訊</div>
+            <div class="card-body">
+              	<div class="table-responsive">
+              		<!-- {{te}} -->
+              	  	<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              	  	  	<thead>
+		                    <tr>
+		                      	<th>編號</th>
+		                      	<th>站名</th>
+		                      	<th>區域</th>
+		                      	<th>位置</th>
+		                      	<!-- <th>目前剩餘數/總數</th> -->
+		                      	<th>資訊</th>
+		                    </tr>
+		                </thead>
+		                <tbody>
+		                {% for ubike in ubike_data %}
+		                	<tr>
+		                      <td>{{ ubike.sno }}</td>
+		                      <td>{{ ubike.sna }}</td>
+		                      <td>{{ ubike.sarea }}</td>
+		                      <td>{{ ubike.ar }}</td>
+		                      <!-- <td>{{ ubike.now_sbi }}/{{ ubike.total }}</td> -->
+		                      <td><a href="{% url 'post_detail' pk=ubike.sno %}" class="btn btn-info" role="button">Info</a></td>
+		                    </tr>
+		                {% endfor %}
+		                </tbody>
+		                <tfoot>
+		                  	<tr>
+		                  	  	<th>編號</th>
+		                      	<th>站名</th>
+		                      	<th>區域</th>
+		                      	<th>位置</th>
+		                      	<!-- <th>目前剩餘數/總數</th> -->
+		                      	<th>資訊</th>
+		                  	</tr>
+		                </tfoot>
+              	  	</table>
+              </div>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+          </div>
+{% endblock %}
+
