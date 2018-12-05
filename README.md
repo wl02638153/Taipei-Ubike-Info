@@ -3,7 +3,7 @@
 
 ## 取得資料
 可以上台北市政府資料開放平台獲取開放資料  
-https://data.taipei/index
+https://data.taipei/index  
 這次是使用Ubike的服務  
 https://tcgbusfs.blob.core.windows.net/blobyoubike/YouBikeTP.gz  
 從這裡可以獲取當前各站點資訊及剩餘數量的JSON格式的文字檔，寫一個定時抓取的腳本就可以進行數據分析。
