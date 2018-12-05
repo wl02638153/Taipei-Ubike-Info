@@ -14,8 +14,7 @@ get_ubike_info.py
 
 ### 獲取各站點使用狀況  
 
-get_ubike_data.py  
-![](https://i.imgur.com/zPysCF0.png)
+get_ubike_data.py![](https://i.imgur.com/zPysCF0.png)
 
 
 ## 數據可視化分析
