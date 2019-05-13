@@ -8,7 +8,7 @@ def ubike_data(request):
         host='localhost',
         port=3306,
         user='root',
-        passwd='s45029378',
+        passwd='****',
         db='ubike',
         charset='utf8'
     )
@@ -30,7 +30,7 @@ def ubike_detil(request):
         host='localhost',
         port=3306,
         user='root',
-        passwd='s45029378',
+        passwd='****',
         db='ubike',
         charset='utf8'
     )
